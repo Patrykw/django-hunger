@@ -73,9 +73,13 @@ def invite_email(request):
                     if not inv.invited:
                         inv.invited = now()
                         inv.save()
+                        code.num_invites -= 1
+                        code.save()
             else:
                 right_now = now()
                 inv = Invitation(email=email, invited=right_now, created=right_now)
                 inv.save()
+                code.num_invites -= 1
+                code.save()
             return HttpResponse("Invited!")    
     return HttpResponse("Not invited!")
