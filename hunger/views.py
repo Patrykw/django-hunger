@@ -9,26 +9,6 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 
 
-class InviteView(FormView):
-    """
-    Allow a user to send invites.
-    """
-    template_name = 'hunger/request_invite.html'
-    form_class = InviteSendForm
-    success_url = reverse_lazy('hunger-verified')
-
-    def form_valid(self, form):
-        valid_code = InvitationCode.objects.get(owner=self.request.user,
-                                                num_invites__gt=0)
-        form.instance.code = valid_code
-        form.instance.invited = now()
-        form.save()
-
-        return super(InviteView, self).form_valid(form)
-
-    def form_invalid(self, form):
-        return super(InviteView, self).form_valid(form)
-
 class NotBetaView(TemplateView):
     """
     Display a message to the user after the invite request is completed
