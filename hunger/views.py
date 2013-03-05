@@ -62,6 +62,7 @@ def invite_email(request):
     email = request.POST['email']
     code = InvitationCode.objects.filter(owner=request.user)
     if code:
+        code = code[0]
         if code.num_invites > 0:
             user = User.objects.filter(email=email)
             if user:
