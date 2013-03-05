@@ -70,8 +70,9 @@ def invite_email(request):
                 inv = Invitation.objects.filter(user=user)
                 if inv:
                     inv = inv[0]
-                    inv.invited = now()
-                    inv.save()
+                    if not inv.invited:
+                        inv.invited = now()
+                        inv.save()
             else:
                 right_now = now()
                 inv = Invitation(email=email, invited=right_now, created=right_now)
