@@ -153,6 +153,7 @@ class BetaMiddleware(object):
             code.num_invites -= 1
         invitation.save()
         code.save()
+        request._hunger_delete_cookie = True
         return
 
     def process_response(self, request, response):
